@@ -4,28 +4,84 @@ void main() {
   runApp(const MyApp());
 }
 
+/*
+// Column
+class MyApp extends StatelessWidget {
+  const MyApp({super.key});
+  @override
+  Widget build(BuildContext context) {
+    return Column(
+      children: [
+        Container(
+        color: Colors.red,
+      width: 100,
+        height: 100,
+      margin: EdgeInsets.all(10),
+    ),
+        Container(
+          color: Colors.blueAccent,
+          width: 50,
+          height: 50,
+          margin: EdgeInsets.all(10),
+        )
+      ],
+    );
+  }
+}
+
+   */
+
+/*
+// row
+class MyApp extends StatelessWidget {
+  const MyApp({super.key});
+  @override
+  Widget build(BuildContext context) {
+    return Row(
+      textDirection: TextDirection.rtl,
+      children: [
+        Container(
+          color: Colors.red,
+          width: 100,
+          height: 100,
+          margin: EdgeInsets.all(10),
+        ),
+        Container(
+          color: Colors.blueAccent,
+          width: 50,
+          height: 50,
+          margin: EdgeInsets.all(10),
+        )
+      ],
+    );
+  }
+}
+ */
+
 class MyApp extends StatelessWidget {
   const MyApp({super.key});
 
   @override
   Widget build(BuildContext context) {
-    return Container(
-      // color: Colors.amber,
-      margin: EdgeInsets.all(50),
-      decoration: BoxDecoration(
-        color: Colors.amber,
-        borderRadius: BorderRadius.all(Radius.circular(20)),
-        border: Border.all(
-          color: Colors.white,
-          width: 5
-        )
-      ),
-      child: Center(
-        child: Text("안녕하세요",
-            textDirection: TextDirection.ltr,
-            style: TextStyle(fontSize: 40)),
-
-      ),
-    );
+    return MaterialApp(
+        theme: ThemeData(
+          primarySwatch: Colors.amber),
+          debugShowCheckedModeBanner: false, // 오른쪽 구석에 debug 표시 제거
+          home: Scaffold(
+            appBar: AppBar(
+              title: Text("AWESOME BRO"),
+            ),
+            body: Center(
+              child: Container(
+                color: Colors.red,
+                width: 100,
+                height: 100,
+                margin: EdgeInsets.all(10),
+              ),
+            ),
+          ),
+        );
   }
 }
+
+
