@@ -9,22 +9,23 @@ class MyApp extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    return MaterialApp(
-      home:Scaffold(
-        body: Container(
-          color: Colors.amber,
-          child: Center(
-              child: Text(
-                  '안녕하세요',
-                  textDirection: TextDirection.ltr,
-                  style: TextStyle(
-                    fontSize: 32,
-                    color: Colors.white,
-                    fontWeight: FontWeight.bold,
-                  ))
-          ),
+    return Container(
+      // color: Colors.amber,
+      margin: EdgeInsets.all(50),
+      decoration: BoxDecoration(
+        color: Colors.amber,
+        borderRadius: BorderRadius.all(Radius.circular(20)),
+        border: Border.all(
+          color: Colors.white,
+          width: 5
         )
-      )
+      ),
+      child: Center(
+        child: Text("안녕하세요",
+            textDirection: TextDirection.ltr,
+            style: TextStyle(fontSize: 40)),
+
+      ),
     );
   }
 }
