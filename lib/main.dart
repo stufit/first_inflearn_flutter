@@ -1,11 +1,19 @@
 import 'package:flutter/material.dart';
 
 void main() {
-  runApp(MyApp());
+  runApp(MaterialApp(
+    title: '내앱',
+    theme: ThemeData(
+        useMaterial3: true,
+        colorScheme: ColorScheme.fromSeed(seedColor: Colors.green)),
+    home: MyApp(),
+  ));
 }
 
 class MyApp extends StatelessWidget {
-  const MyApp({super.key});
+  MyApp({super.key});
+
+  final TextEditingController _emailController = TextEditingController();
 
   @override
   Widget build(BuildContext context) {
@@ -13,79 +21,38 @@ class MyApp extends StatelessWidget {
       debugShowCheckedModeBanner: false,
       home: Scaffold(
         appBar: AppBar(
-          title: Text(
-            '스투핏 뮤직 플레이어',
-            style: TextStyle(
-                fontFamily: 'NotoSans',
-                fontSize: 30,
-                fontWeight: FontWeight.bold),
-          ),
-          backgroundColor: Colors.purpleAccent,
-        ),
-        body: Container(
-          decoration: BoxDecoration(
-              gradient: LinearGradient(
-                  begin: Alignment.topLeft,
-                  end: Alignment.bottomRight,
-                  colors: [Colors.amber, Colors.red])),
-          child: Center(
-            child: Column(
-              mainAxisAlignment: MainAxisAlignment.center,
-              children: [
-                CircleAvatar(
-                  backgroundImage: AssetImage('assets/images/coding.jpg'),
-                  radius: 100,
+            title: Text(
+          "스투핏앱",
+        )),
+        body: Center(
+          child: Column(
+            children: [
+              SizedBox(height: 10),
+              TextField(
+                decoration: InputDecoration(
+                    labelText: "Email",
+                    labelStyle: TextStyle(color: Colors.green),
+                    hintText: "이메일을 입력하세요",
+                    hintStyle: TextStyle(color: Colors.amber),
+                    focusedBorder: OutlineInputBorder(
+                        borderRadius: BorderRadius.all(Radius.circular(10.0)),
+                        borderSide: BorderSide(width: 4, color: Colors.red)),
+                    enabledBorder: UnderlineInputBorder(
+                        borderRadius: BorderRadius.all(Radius.circular(10.0)),
+                        borderSide:
+                            BorderSide(width: 1, color: Colors.lightBlue)),
+                    enabled: true,
+                    icon: Icon(Icons.search),
+                    prefixIcon: Icon(Icons.phone),
+                    suffixIcon: Icon(Icons.stacked_bar_chart),
                 ),
-                SizedBox(height: 20),
-                Text(
-                  '곡 제목',
-                  style: TextStyle(
-                      fontSize: 24,
-                      fontWeight: FontWeight.bold,
-                      color: Colors.white,
-                      fontFamily: 'Dohyeon'),
-                ),
-                SizedBox(height: 10),
-                Text(
-                  '아티스트명',
-                  style: TextStyle(
-                      fontSize: 18,
-                      fontStyle: FontStyle.italic,
-                      color: Colors.white70,
-                      fontFamily: 'cafe'),
-                ),
-                SizedBox(height: 30),
-                Slider(
-                  value: 0.5,
-                  onChanged: (value) {},
-                  activeColor: Colors.white,
-                  inactiveColor: Colors.grey,
-                ),
-                SizedBox(height: 10),
-                Row(
-                  mainAxisAlignment: MainAxisAlignment.spaceEvenly,
-                  children: [
-                    IconButton(
-                        onPressed: () {},
-                        icon: Icon(Icons.fast_rewind),
-                        iconSize: 50,
-                        color: Colors.white),
-                    IconButton(
-                      onPressed: () {},
-                      icon: Icon(Icons.play_arrow),
-                      iconSize: 50,
-                      color: Colors.white,
-                    ),
-                    IconButton(
-                      onPressed: () {},
-                      icon: Icon(Icons.fast_forward),
-                      iconSize: 50,
-                      color: Colors.white,
-                    )
-                  ],
-                )
-              ],
-            ),
+                keyboardType: TextInputType.emailAddress,
+                textInputAction: TextInputAction.search,
+                obscureText: false, // 값을 안보이게함
+                controller: _emailController,
+              ),
+              ElevatedButton(onPressed: (){print(_emailController.text);}, child: Text('클릭'))
+            ],
           ),
         ),
       ),
