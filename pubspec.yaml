@@ -54,6 +54,9 @@ dev_dependencies:
 flutter:
   assets:
     - assets/images/wallpaper-powfactor.jpg
+    - assets/images/CSBaseFun.png
+    - assets/images/CSPlusFun.png
+    - assets/images/coding.jpg
   fonts:
     - family: NotoSans
       fonts:
