@@ -52,6 +52,27 @@ dev_dependencies:
 
 # The following section is specific to Flutter packages.
 flutter:
+  assets:
+    - assets/images/wallpaper-powfactor.jpg
+  fonts:
+    - family: NotoSans
+      fonts:
+        - asset: assets/font/NotoSans/NotoSansKR-Black.ttf
+        - asset: assets/font/NotoSans/NotoSansKR-Bold.ttf
+        - asset: assets/font/NotoSans/NotoSansKR-ExtraBold.ttf
+        - asset: assets/font/NotoSans/NotoSansKR-ExtraLight.ttf
+        - asset: assets/font/NotoSans/NotoSansKR-Medium.ttf
+        - asset: assets/font/NotoSans/NotoSansKR-Regular.ttf
+        - asset: assets/font/NotoSans/NotoSansKR-SemiBold.ttf
+        - asset: assets/font/NotoSans/NotoSansKR-Thin.ttf
+        - asset: assets/font/NotoSans/NotoSansKR-VariableFont_wght.ttf
+        - asset: assets/font/Dohyeon/DoHyeon-Regular.ttf
+    - family: CAFE
+      fonts:
+        - asset: assets/font/cafe/Cafe24Moyamoya-Face-v1.0.otf
+
+
+
 
   # The following line ensures that the Material Icons font is
   # included with your application, so that you can use the icons in
