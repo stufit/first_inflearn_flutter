@@ -5,92 +5,96 @@ void main() {
 }
 
 class MyApp extends StatefulWidget {
-  const MyApp({Key? key}) : super(key: key);
+  const MyApp({super.key});
 
   @override
   State<MyApp> createState() => _MyAppState();
 }
 
 class _MyAppState extends State<MyApp> {
-  bool? _checkBoxValue = false;
-  String _radioValue = 'Option 1';
-  double _sliderValue = 50.0;
-  bool _switchValue = false;
+  final _formKey = GlobalKey<FormState>();
+  String _name = '';
+  String _email = '';
+  String _password = '';
+  String _errorMessage = '';
+
+  void _submitForm() {
+    if (_formKey.currentState!.validate()) {
+      _formKey.currentState!.save();
+      print('$_name / $_email / $_password /');
+      setState(() {
+        _errorMessage = "";
+      });
+    } else {
+      setState(() {
+        _errorMessage = "채워!!!";
+      });
+    }
+  }
 
   @override
   Widget build(BuildContext context) {
     return MaterialApp(
+      debugShowCheckedModeBanner: false,
       home: Scaffold(
-        appBar: AppBar(title: Text('Form Controls Example')),
+        appBar: AppBar(
+          title: Text("스투핏"),
+        ),
         body: Container(
-          padding: EdgeInsets.all(16.0),
-          child: Column(
-            crossAxisAlignment: CrossAxisAlignment.start,
-            children: [
-              Center(
-                child: Text('체크박스: $_checkBoxValue, 라디오버튼 : $_radioValue, 슬라이더: $_sliderValue, 스위치: $_switchValue'),
-              ),
-              SizedBox(height: 16.0),
-              Text('Checkbox:'),
-              Checkbox(
-                  value: _checkBoxValue,
-                  onChanged: (value) {
-                    setState(() {
-                      _checkBoxValue = value;
-                    });
-                  }),
-              SizedBox(height: 16.0),
-              Text('Radio Buttons:'),
-              Row(
-                children: [
-                  Radio(
-                    value: 'Option 1',
-                    groupValue: _radioValue,
-                    onChanged: (value) {
-                      setState(() {
-                        _radioValue = value.toString();
-                      });
-                    },
-                  ),
-                  Text('Option 1'),
-                  Radio(
-                    value: 'Option 2',
-                    groupValue: _radioValue,
-                    onChanged: (value) {
-                      setState(() {
-                        _radioValue = value.toString();
-                      });
-                    },
-                  ),
-                  Text('Option 2'),
-                ],
-              ),
-              SizedBox(
-                height: 16.0,
-              ),
-              Text('Slider'),
-              Slider(
-                  value: _sliderValue,
-                  min: 0,
-                  max: 100,
-                  onChanged: (value) {
-                    setState(() {
-                      print(value);
-                      _sliderValue = value;
-                    });
-                  }),
-              SizedBox(height: 16.0),
-              Text('Switch'),
-              Switch(
-                value: _switchValue,
-                onChanged: (value) {
-                  setState(() {
-                    print(value);
-                    _switchValue = value;
-                  });
-                },
-              )
-            ],
+          padding: EdgeInsets.all(16),
+          child: Form(
+            key: _formKey,
+            child: Column(
+              crossAxisAlignment: CrossAxisAlignment.start,
+              children: [
+                TextFormField(
+                  decoration: InputDecoration(
+                      labelText: "이름",
+                      errorStyle: TextStyle(
+                          color: Colors.amber,
+                          fontSize: 10,
+                          fontFamily: "cafe")),
+                  validator: (value) {
+                    if (value == null || value.isEmpty) {
+                      return "이름을 입력하세요";
+                    }
+                    return null;
+                  },
+                  onSaved: (value) {
+                    _name = value!;
+                  },
+                ),
+                TextFormField(
+                  decoration: InputDecoration(labelText: "이메일"),
+                  validator: (value) {
+                    if (value == null || value.isEmpty) {
+                      return "이메일을 입력하세요";
+                    }
+                    return null;
+                  },
+                  onSaved: (value) {
+                    _email = value!;
+                  },
+                ),
+                TextFormField(
+                  decoration: InputDecoration(labelText: "비밀번호"),
+                  validator: (value) {
+                    if (value == null || value.isEmpty) {
+                      return "비밀번호를 입력하세요";
+                    }
+                    return null;
+                  },
+                  onSaved: (value) {
+                    _password = value!;
+                  },
+                ),
+                ElevatedButton(onPressed: _submitForm, child: Text('확인')),
+                Text(
+                  _errorMessage,
+                  style: TextStyle(color: Colors.red, fontFamily: "cafe"),
+                )
+              ],
+            ),
           ),
         ),
       ),
