@@ -15,6 +15,8 @@ class _MyAppState extends State<FeedbackForm> {
   final _formKey = GlobalKey<FormState>();
   int? _rating = 0;
   String _successMessage = '';
+  double _sliderValue = 0;
+  bool _agreeToTerms = false;
 
   @override
   Widget build(BuildContext context) {
@@ -68,15 +70,39 @@ class _MyAppState extends State<FeedbackForm> {
                     );
                   }),
                 ),
+                ListTile(
+                  title: Text("우리 서비스를 만족하셨나요?"),
+                  trailing: Text('${_sliderValue.toStringAsFixed(0)}'),
+                ),
+                Slider(
+                    value: _sliderValue,
+                    min: 0,
+                    max: 10,
+                    divisions: 10,
+                    label: _sliderValue.toStringAsFixed(0),
+                    onChanged: (value) {
+                      setState(() {
+                        _sliderValue = value;
+                      });
+                    }),
+                CheckboxListTile(
+                  title: Text("뉴스레터 구독"),
+                  value: _agreeToTerms,
+                  onChanged: (value){
+                    setState(() {
+                      _agreeToTerms = value!;
+                    });
+                  },
+                ),
                 ElevatedButton(
                     onPressed: () {
                       if (_formKey.currentState!.validate()) {
                         setState(() {
                           _successMessage = "성공하였습니다.";
                         });
-                      }else{
+                      } else {
                         setState(() {
-                          _successMessage="빈 공란이 있습니다.";
+                          _successMessage = "빈 공란이 있습니다.";
                         });
                       }
                     },
