@@ -53,10 +53,11 @@ dev_dependencies:
 # The following section is specific to Flutter packages.
 flutter:
   assets:
-    - assets/images/wallpaper-powfactor.jpg
+    - assets/images/path.jpg
     - assets/images/CSBaseFun.png
     - assets/images/CSPlusFun.png
     - assets/images/coding.jpg
+    - assets/images/tree.jpg
   fonts:
     - family: NotoSans
       fonts:

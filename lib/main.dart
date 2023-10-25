@@ -13,7 +13,7 @@ class MyApp extends StatelessWidget {
       debugShowCheckedModeBanner: false,
       theme: ThemeData(
           useMaterial3: true,
-          colorScheme: ColorScheme.fromSeed(seedColor: Colors.amber)),
+          colorScheme: ColorScheme.fromSeed(seedColor: Colors.pinkAccent)),
       home: MyHomePage(),
     );
   }
@@ -27,7 +27,7 @@ class MyHomePage extends StatefulWidget {
 }
 
 class _MyHomePageState extends State<MyHomePage> {
-  final PageController _controller = PageController();
+  final PageController _controller = PageController(viewportFraction: 0.9);
   int _currentPage = 0;
 
   @override
@@ -51,51 +51,67 @@ class _MyHomePageState extends State<MyHomePage> {
   Widget build(BuildContext context) {
     return Scaffold(
       appBar: AppBar(
-          title: Text(
-            "프로젝트1",
-            style: TextStyle(color: Colors.white),
-          ),
-          centerTitle: true,
-          backgroundColor: Theme.of(context).colorScheme.primary),
-      body: Stack(
-        children: [
-          PageView(
-            controller: _controller,
-            children: [
-              _buildPage(
-                  imageUrl: "https://source.unsplash.com/random/3",
-                  userName: "Stufit",
-                  avatarUrl: "https://randomuser.me/api/portraits/men/60.jpg"),
-              _buildPage(
-                  imageUrl: "https://source.unsplash.com/random/2",
-                  userName: "WAF",
-                  avatarUrl: "https://randomuser.me/api/portraits/men/61.jpg"),
-              _buildPage(
-                  imageUrl: "https://source.unsplash.com/random/1",
-                  userName: "Gu",
-                  avatarUrl: "https://randomuser.me/api/portraits/men/62.jpg")
-            ],
-          ),
-          Positioned(
-            bottom: 20,
-            left: 0,
-            right: 0,
-            child: Row(
-                mainAxisAlignment: MainAxisAlignment.center,
-                children: List.generate(3, (index) {
-                  return Container(
-                    width: 8,
-                    height: 8,
-                    margin: EdgeInsets.symmetric(horizontal: 2),
-                    decoration: BoxDecoration(
-                        shape: BoxShape.circle,
-                        color: _currentPage == index
-                            ? Theme.of(context).colorScheme.primary
-                            : Theme.of(context).colorScheme.primaryContainer),
-                  );
-                })),
-          )
-        ],
+        title: Text(
+          "프로젝트1",
+          style: TextStyle(color: Colors.white),
+        ),
+        centerTitle: true,
+        flexibleSpace: Container(
+          decoration: BoxDecoration(
+              gradient: LinearGradient(colors: [
+            Theme.of(context).colorScheme.primary,
+            Theme.of(context).colorScheme.primaryContainer
+          ], begin: Alignment.topLeft, end: Alignment.topRight)),
+        ),
+      ),
+      body: Container(
+        decoration: BoxDecoration(
+            gradient: LinearGradient(colors: [
+          Theme.of(context).colorScheme.primary,
+          Theme.of(context).colorScheme.primaryContainer
+        ], begin: Alignment.topLeft, end: Alignment.topRight)),
+        child: Stack(
+          children: [
+            PageView(
+              controller: _controller,
+              children: [
+                _buildPage(
+                    imageUrl: "assets/images/path.jpg",
+                    userName: "wow",
+                    avatarUrl:
+                        "https://randomuser.me/api/portraits/men/60.jpg"),
+                _buildPage(
+                    imageUrl: "assets/images/coding.jpg",
+                    userName: "WAF",
+                    avatarUrl:
+                        "https://randomuser.me/api/portraits/men/61.jpg"),
+                _buildPage(
+                    imageUrl: "assets/images/tree.jpg",
+                    userName: "Gu",
+                    avatarUrl: "https://randomuser.me/api/portraits/men/62.jpg")
+              ],
+            ),
+            Positioned(
+              bottom: 20,
+              left: 0,
+              right: 0,
+              child: Row(
+                  mainAxisAlignment: MainAxisAlignment.center,
+                  children: List.generate(3, (index) {
+                    return Container(
+                      width: 8,
+                      height: 8,
+                      margin: EdgeInsets.symmetric(horizontal: 2),
+                      decoration: BoxDecoration(
+                          shape: BoxShape.circle,
+                          color: _currentPage == index
+                              ? Theme.of(context).colorScheme.primary
+                              : Theme.of(context).colorScheme.primaryContainer),
+                    );
+                  })),
+            )
+          ],
+        ),
       ),
     );
   }
@@ -107,9 +123,12 @@ class _MyHomePageState extends State<MyHomePage> {
     return Stack(
       children: [
         Positioned.fill(
-          child: Image.network(
-            imageUrl,
-            fit: BoxFit.cover,
+          child: ClipRRect(
+            borderRadius: BorderRadius.circular(8),
+            child: Image.asset(
+              imageUrl,
+              fit: BoxFit.cover,
+            ),
           ),
         ),
         Positioned(
