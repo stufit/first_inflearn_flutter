@@ -27,6 +27,26 @@ class MyHomePage extends StatefulWidget {
 }
 
 class _MyHomePageState extends State<MyHomePage> {
+  final PageController _controller = PageController();
+  int _currentPage = 0;
+
+  @override
+  void initState() {
+    super.initState();
+    _controller.addListener(() {
+      setState(() {
+        _currentPage = _controller.page!.round(); // 페이지 계산
+      });
+    });
+  }
+
+  // 앱꺼질때
+  @override
+  void dispose() {
+    _controller.dispose();
+    super.dispose();
+  }
+
   @override
   Widget build(BuildContext context) {
     return Scaffold(
@@ -40,6 +60,7 @@ class _MyHomePageState extends State<MyHomePage> {
       body: Stack(
         children: [
           PageView(
+            controller: _controller,
             children: [
               _buildPage(
                   imageUrl: "https://source.unsplash.com/random/3",
@@ -54,6 +75,25 @@ class _MyHomePageState extends State<MyHomePage> {
                   userName: "Gu",
                   avatarUrl: "https://randomuser.me/api/portraits/men/62.jpg")
             ],
+          ),
+          Positioned(
+            bottom: 20,
+            left: 0,
+            right: 0,
+            child: Row(
+                mainAxisAlignment: MainAxisAlignment.center,
+                children: List.generate(3, (index) {
+                  return Container(
+                    width: 8,
+                    height: 8,
+                    margin: EdgeInsets.symmetric(horizontal: 2),
+                    decoration: BoxDecoration(
+                        shape: BoxShape.circle,
+                        color: _currentPage == index
+                            ? Theme.of(context).colorScheme.primary
+                            : Theme.of(context).colorScheme.primaryContainer),
+                  );
+                })),
           )
         ],
       ),
@@ -91,10 +131,10 @@ class _MyHomePageState extends State<MyHomePage> {
                     fontWeight: FontWeight.bold,
                     shadows: [
                       Shadow(
-                      offset: Offset(1,1),
-                        blurRadius: 2,
-                        color: Colors.red.withOpacity(1)
-                    )]),
+                          offset: Offset(1, 1),
+                          blurRadius: 2,
+                          color: Colors.red.withOpacity(1))
+                    ]),
               )
             ],
           ),
