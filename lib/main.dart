@@ -10,155 +10,47 @@ class MyApp extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return MaterialApp(
-      debugShowCheckedModeBanner: false,
-      theme: ThemeData(
-          useMaterial3: true,
-          colorScheme: ColorScheme.fromSeed(seedColor: Colors.pinkAccent)),
-      home: MyHomePage(),
+      home: Scaffold(
+        appBar: AppBar(title: Text("알림창")),
+        body: Center(
+          child: DialogExample(),
+        ),
+      ),
     );
   }
 }
 
-class MyHomePage extends StatefulWidget {
-  const MyHomePage({super.key});
-
-  @override
-  State<MyHomePage> createState() => _MyHomePageState();
-}
-
-class _MyHomePageState extends State<MyHomePage> {
-  final PageController _controller = PageController(viewportFraction: 0.9);
-  int _currentPage = 0;
-
-  @override
-  void initState() {
-    super.initState();
-    _controller.addListener(() {
-      setState(() {
-        _currentPage = _controller.page!.round(); // 페이지 계산
-      });
-    });
-  }
-
-  // 앱꺼질때
-  @override
-  void dispose() {
-    _controller.dispose();
-    super.dispose();
-  }
+class DialogExample extends StatelessWidget {
+  const DialogExample({super.key});
 
   @override
   Widget build(BuildContext context) {
-    return Scaffold(
-      appBar: AppBar(
-        title: Text(
-          "프로젝트1",
-          style: TextStyle(color: Colors.white),
-        ),
-        centerTitle: true,
-        flexibleSpace: Container(
-          decoration: BoxDecoration(
-              gradient: LinearGradient(colors: [
-            Theme.of(context).colorScheme.primary,
-            Theme.of(context).colorScheme.primaryContainer
-          ], begin: Alignment.topLeft, end: Alignment.topRight)),
-        ),
-      ),
-      body: Container(
-        decoration: BoxDecoration(
-            gradient: LinearGradient(colors: [
-          Theme.of(context).colorScheme.primary,
-          Theme.of(context).colorScheme.primaryContainer
-        ], begin: Alignment.topLeft, end: Alignment.topRight)),
-        child: Stack(
-          children: [
-            PageView(
-              controller: _controller,
-              children: [
-                _buildPage(
-                    imageUrl: "assets/images/path.jpg",
-                    userName: "wow",
-                    avatarUrl:
-                        "https://randomuser.me/api/portraits/men/60.jpg"),
-                _buildPage(
-                    imageUrl: "assets/images/coding.jpg",
-                    userName: "WAF",
-                    avatarUrl:
-                        "https://randomuser.me/api/portraits/men/61.jpg"),
-                _buildPage(
-                    imageUrl: "assets/images/tree.jpg",
-                    userName: "Gu",
-                    avatarUrl: "https://randomuser.me/api/portraits/men/62.jpg")
-              ],
+    return TextButton(
+      onPressed: () => showDialog(
+          context: context,
+          barrierDismissible: false, // true : 팝업 떳을 때 다른 곳 누르면 나가짐
+          builder: (BuildContext context) => AlertDialog(
+                title: Text('다이얼로그 타이틀'),
+                content: Text('다이얼로그 설명'),
+            backgroundColor: Colors.amber[100],
+            elevation: 100, // 화면에서 띄어진 정도
+            shape: RoundedRectangleBorder(
+              borderRadius: BorderRadius.circular(8)
             ),
-            Positioned(
-              bottom: 20,
-              left: 0,
-              right: 0,
-              child: Row(
-                  mainAxisAlignment: MainAxisAlignment.center,
-                  children: List.generate(3, (index) {
-                    return Container(
-                      width: 8,
-                      height: 8,
-                      margin: EdgeInsets.symmetric(horizontal: 2),
-                      decoration: BoxDecoration(
-                          shape: BoxShape.circle,
-                          color: _currentPage == index
-                              ? Theme.of(context).colorScheme.primary
-                              : Theme.of(context).colorScheme.primaryContainer),
-                    );
-                  })),
-            )
-          ],
-        ),
-      ),
-    );
-  }
-
-  Widget _buildPage(
-      {required String imageUrl,
-      required String userName,
-      required String avatarUrl}) {
-    return Stack(
-      children: [
-        Positioned.fill(
-          child: ClipRRect(
-            borderRadius: BorderRadius.circular(8),
-            child: Image.asset(
-              imageUrl,
-              fit: BoxFit.cover,
-            ),
-          ),
-        ),
-        Positioned(
-          bottom: 20,
-          left: 20,
-          child: Row(
-            children: [
-              CircleAvatar(
-                backgroundImage: NetworkImage(avatarUrl),
-              ),
-              SizedBox(
-                width: 10,
-              ),
-              Text(
-                userName,
-                style: TextStyle(
-                    color: Colors.white,
-                    fontSize: 18,
-                    fontWeight: FontWeight.bold,
-                    shadows: [
-                      Shadow(
-                          offset: Offset(1, 1),
-                          blurRadius: 2,
-                          color: Colors.red.withOpacity(1))
-                    ]),
-              )
+            contentPadding: EdgeInsets.all(12), // 팝업내용 위치
+            actionsPadding: EdgeInsets.all(8), // 팝업 크기
+            titlePadding: EdgeInsets.all(12), // 팝업 제목 위치
+            buttonPadding: EdgeInsets.all(0),
+            actions: [
+              TextButton(
+                  onPressed: ()=>Navigator.of(context).pop(), // 전화면으로 돌아감,
+                  child: Text('취소')),
+              TextButton(
+                  onPressed: ()=>Navigator.of(context).pop(), // 전화면으로 돌아감
+                  child: Text('확인')),
             ],
-          ),
-        )
-      ],
+              )),
+      child: Text("다이얼로그보여줘"),
     );
   }
 }
