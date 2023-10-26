@@ -4,53 +4,122 @@ void main() {
   runApp(MyApp());
 }
 
-class MyApp extends StatelessWidget {
+class MyApp extends StatefulWidget {
   const MyApp({super.key});
+
+  @override
+  State<MyApp> createState() => _MyAppState();
+}
+
+class _MyAppState extends State<MyApp> with SingleTickerProviderStateMixin {
+  late TabController _tabController;
+
+  @override
+  void initState() {
+    super.initState();
+    _tabController = TabController(length: 3, vsync: this);
+  }
+
+  @override
+  void dispose() {
+    _tabController.dispose();
+    super.dispose();
+  }
 
   @override
   Widget build(BuildContext context) {
     return MaterialApp(
+      title: "크롬탭에 뜨는 이름",
       home: Scaffold(
-        appBar: AppBar(title: Text("알림창")),
-        body: Center(
-          child: DialogExample(),
+        appBar: AppBar(
+          title: Text("탭바 예제"),
+          bottom: TabBar(
+            controller: _tabController,
+            tabs: [
+              Tab(icon: Icon(Icons.home), text: "홈버튼"),
+              Tab(icon: Icon(Icons.favorite), text: "즐겨찾기"),
+              Tab(icon: Icon(Icons.settings), text: "세팅"),
+            ],
+          ),
+        ),
+        body: TabBarView(
+          controller: _tabController,
+          children: [
+            Center(child: Text("홈버튼 센터")),
+            Center(child: Text("즐겨찾기 센터")),
+            Center(child: Text("세팅 센터")),
+          ],
         ),
       ),
     );
   }
 }
 
-class DialogExample extends StatelessWidget {
-  const DialogExample({super.key});
+/*
+// BottomSheet
+void main() {
+  runApp(BottomSheetApp());
+}
+
+class BottomSheetApp extends StatelessWidget {
+  const BottomSheetApp({super.key});
 
   @override
   Widget build(BuildContext context) {
-    return TextButton(
-      onPressed: () => showDialog(
-          context: context,
-          barrierDismissible: false, // true : 팝업 떳을 때 다른 곳 누르면 나가짐
-          builder: (BuildContext context) => AlertDialog(
-                title: Text('다이얼로그 타이틀'),
-                content: Text('다이얼로그 설명'),
-            backgroundColor: Colors.amber[100],
-            elevation: 100, // 화면에서 띄어진 정도
-            shape: RoundedRectangleBorder(
-              borderRadius: BorderRadius.circular(8)
-            ),
-            contentPadding: EdgeInsets.all(12), // 팝업내용 위치
-            actionsPadding: EdgeInsets.all(8), // 팝업 크기
-            titlePadding: EdgeInsets.all(12), // 팝업 제목 위치
-            buttonPadding: EdgeInsets.all(0),
-            actions: [
-              TextButton(
-                  onPressed: ()=>Navigator.of(context).pop(), // 전화면으로 돌아감,
-                  child: Text('취소')),
-              TextButton(
-                  onPressed: ()=>Navigator.of(context).pop(), // 전화면으로 돌아감
-                  child: Text('확인')),
-            ],
-              )),
-      child: Text("다이얼로그보여줘"),
+    return MaterialApp(
+      home: Scaffold(
+        appBar: AppBar(
+          title: Text("bottom sheet 예제"),
+        ),
+        body: BottomSheetExample(),
+      ),
     );
   }
 }
+
+class BottomSheetExample extends StatelessWidget {
+  const BottomSheetExample({super.key});
+
+  @override
+  Widget build(BuildContext context) {
+    return Center(
+      child: ElevatedButton(
+        child: Text('showModalBottomSheet'),
+        onPressed: () {
+          showModalBottomSheet( // showBottomSheet는 다른 곳 눌러도 창이 안사라짐
+            context: context,
+            builder: (BuildContext context) {
+              return Container(
+                color: Colors.amber,
+                child: Column(
+                  mainAxisSize: MainAxisSize.min, // 위로 올라오는 사이즈를 조절
+                  children: [
+                    ListTile(
+                      leading: Icon(Icons.add),
+                      title: Text("추가"),
+                      onTap: () {
+                        Navigator.of(context).pop();
+                      },
+
+                    ),
+                    ListTile(
+                      leading: Icon(Icons.remove),
+                      title: Text("삭제"),
+                      onTap: () {
+                        Navigator.of(context).pop();
+                      },
+
+                    )
+                  ],
+                ),
+              );
+            },
+          );
+        },
+      ),
+    );
+  }
+}
+
+
+ */
