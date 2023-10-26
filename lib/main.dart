@@ -4,41 +4,99 @@ void main() {
   runApp(MyApp());
 }
 
-class MyApp extends StatelessWidget {
+
+class MyApp extends StatefulWidget {
   const MyApp({super.key});
+
+  @override
+  State<MyApp> createState() => _MyAppState();
+}
+
+class _MyAppState extends State<MyApp> {
+  int _currentIndex = 0;
+
 
   @override
   Widget build(BuildContext context) {
     return MaterialApp(
       debugShowCheckedModeBanner: false,
       home: Scaffold(
-        body: Center(
-          child: SizedBox(
-            width: 400,
-            height: 400,
-            child: Card(
-              elevation: 50,
-              margin: EdgeInsets.all(5),
-              shadowColor: Colors.blue,
-              shape: RoundedRectangleBorder(
-                side: BorderSide(
-                  color: Colors.deepPurple,
+        bottomNavigationBar: BottomNavigationBar(
+          items: [
+            BottomNavigationBarItem(
+                icon: Icon(Icons.home),
+                activeIcon: Icon(
+                  Icons.home,
+                  color: Colors.brown,
                 ),
-                borderRadius: BorderRadius.circular(20)
-              ),
-              color: Colors.amber,
-              child: Center(
-                  child: CircleAvatar(
-                    backgroundColor: Colors.brown,
-                    radius: 50,
-                    child: Center(
-                      child: Text("호이",style: TextStyle(fontSize: 30),),
-                    ),
-                  )),
-            ),
-          ),
+                label: "홈"),
+            BottomNavigationBarItem(
+                icon: Icon(Icons.favorite),
+                label: "즐겨찾기"),
+            BottomNavigationBarItem(
+                icon: Icon(Icons.settings),
+                label: "환경설정"),
+          ],
+          onTap: (index){
+            setState(() {
+              _currentIndex = index;
+            });
+          },
+          currentIndex: _currentIndex,
+          backgroundColor: Colors.amber,
+          selectedItemColor: Colors.pinkAccent,
+          unselectedItemColor: Colors.green,
+          // type: BottomNavigationBarType.fixed,
+          type: BottomNavigationBarType.shifting,
+          showSelectedLabels: true,
+          showUnselectedLabels: true,
+        ),
+        backgroundColor: Colors.grey, // 배경화면
+      ),
+    );
+  }
+  }
+
+
+
+/*
+// stl 스타일로
+class MyApp extends StatelessWidget {
+  const MyApp({super.key});
+
+  @override
+  Widget build(BuildContext context) {
+    return MaterialApp(
+      home: Scaffold(
+        bottomNavigationBar: BottomNavigationBar(
+          items: [
+            BottomNavigationBarItem(
+                icon: Icon(Icons.home),
+                activeIcon: Icon(
+                  Icons.home,
+                  color: Colors.brown,
+                ),
+                label: "홈"),
+            BottomNavigationBarItem(
+                icon: Icon(Icons.favorite),
+                label: "즐겨찾기"),
+            BottomNavigationBarItem(
+                icon: Icon(Icons.settings),
+                label: "환경설정"),
+          ],
+          onTap: (index){
+            print(index);
+          },
+          currentIndex: 1,
+          backgroundColor: Colors.amber,
+          selectedItemColor: Colors.pinkAccent,
+          unselectedItemColor: Colors.green,
+          type: BottomNavigationBarType.shifting,
         ),
       ),
     );
   }
 }
+
+
+ */
