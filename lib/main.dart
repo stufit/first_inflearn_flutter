@@ -46,14 +46,11 @@ class _MyHomepageState extends State<MyHomepage>
   Widget build(BuildContext context) {
     return Scaffold(
         appBar: AppBar(
-          title: Text(
-              "뮤직앱",
+          title: Text("뮤직앱",
               style: TextStyle(
-                  color: Theme
-                      .of(context)
-                      .colorScheme
-                      .primary)
-          ),
+                  fontWeight: FontWeight.bold,
+                  color: Theme.of(context).colorScheme.primary)),
+          centerTitle: true,
           bottom: TabBar(
             controller: _controller,
             tabs: [
@@ -71,10 +68,7 @@ class _MyHomepageState extends State<MyHomepage>
               ),
             ],
           ),
-          backgroundColor: Theme
-              .of(context)
-              .colorScheme
-              .primaryContainer,
+          backgroundColor: Theme.of(context).colorScheme.primaryContainer,
         ),
         body: Padding(
           padding: EdgeInsets.symmetric(vertical: 10),
@@ -85,51 +79,31 @@ class _MyHomepageState extends State<MyHomepage>
                 title: "아티스트",
                 items: [
                   ContentItem(
-                      name: "콜드플레이1",
-                      icon: Icons.group,
-                      description: "임시플레이어"
-                  ),
+                      name: "콜드플레이1", icon: Icons.group, description: "임시플레이어"),
                   ContentItem(
-                      name: "콜드플레이2",
-                      icon: Icons.group,
-                      description: "임시플레이어2"
-                  )
+                      name: "콜드플레이2", icon: Icons.group, description: "임시플레이어2")
                 ],
               ),
               TabContent(
                 title: "앨범",
                 items: [
                   ContentItem(
-                      name: "앨범1",
-                      icon: Icons.album,
-                      description: "앨범입니닿ㅎㅎㅎ"
-                  ),
+                      name: "앨범1", icon: Icons.album, description: "앨범입니닿ㅎㅎㅎ"),
                   ContentItem(
-                      name: "앨범2",
-                      icon: Icons.album,
-                      description: "앨범내줘"
-                  )
+                      name: "앨범2", icon: Icons.album, description: "앨범내줘")
                 ],
               ),
               TabContent(
                 title: "노래",
                 items: [
                   ContentItem(
-                      name: "노래1",
-                      icon: Icons.note,
-                      description: "겁쟁이"
-                  ),
-                  ContentItem(
-                      name: "노래2",
-                      icon: Icons.note,
-                      description: "가시"
-                  )
+                      name: "노래1", icon: Icons.note, description: "겁쟁이"),
+                  ContentItem(name: "노래2", icon: Icons.note, description: "가시")
                 ],
               )
             ],
           ),
-        )
-    );
+        ));
   }
 }
 
@@ -143,22 +117,91 @@ class TabContent extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return ListView.builder(
-        itemCount: items.length, itemBuilder: (context, index) {
-      return Card(
-        elevation: 5,
-        child: Container(
-            child: ListTile(
-              leading: Icon(items[index].icon),
-              title: Text(items[index].name),
-              subtitle: Text(items[index].description),
-              trailing: Icon(Icons.chevron_right), // 화살표 표시
-            )
-        ),
-      );
-    });
+        itemCount: items.length,
+        itemBuilder: (context, index) {
+          return Card(
+            elevation: 4,
+            margin: EdgeInsets.symmetric(vertical: 10, horizontal: 6),
+            child: Container(
+                decoration: BoxDecoration(
+                    color: Theme.of(context).colorScheme.primaryContainer,
+                    borderRadius: BorderRadius.circular(5)),
+                child: ListTile(
+                  contentPadding:
+                      EdgeInsets.symmetric(horizontal: 20, vertical: 5),
+                  leading: Icon(
+                    items[index].icon,
+                    size: 25,
+                    color: Theme.of(context).colorScheme.inversePrimary,
+                  ),
+                  title: Text(
+                    items[index].name,
+                    style: TextStyle(
+                        fontSize: 16,
+                        fontWeight: FontWeight.bold,
+                        color: Theme.of(context).colorScheme.inverseSurface),
+                  ),
+                  subtitle: Text(items[index].description),
+                  trailing: Icon(Icons.chevron_right,
+                      color: Theme.of(context).colorScheme.inverseSurface),
+                  // 화살표 표시
+                  onTap: () {
+                    showModalBottomSheet(
+                        context: context,
+                        builder: (BuildContext context) {
+                          return Container(
+                            decoration: BoxDecoration(
+                              color: Theme.of(context).canvasColor,
+                              borderRadius: BorderRadius.only(
+                                topLeft: Radius.circular(10),
+                                topRight: Radius.circular(10)
+                              )
+                            ),
+                            child: Padding(
+                              padding: EdgeInsets.symmetric(
+                                  vertical: 15, horizontal: 20),
+                              child: Column(
+                                crossAxisAlignment: CrossAxisAlignment.start,
+                                mainAxisSize: MainAxisSize.min,
+                                children: [
+                                  Row(
+                                    children: [
+                                      Icon(
+                                        items[index].icon,
+                                        size: 30,
+                                        color: Theme.of(context)
+                                            .colorScheme
+                                            .primary,
+                                      ),
+                                      SizedBox(
+                                        width: 10,
+                                      ),
+                                      Text(
+                                        items[index].name,
+                                        style: TextStyle(
+                                            fontSize: 20,
+                                            fontWeight: FontWeight.bold),
+                                      )
+                                    ],
+                                  ),
+                                  SizedBox(
+                                    height: 10,
+                                  ),
+                                  Text(
+                                    items[index].description,
+                                    style: TextStyle(fontSize: 10),
+                                  ),
+                                ],
+                              ),
+                            ),
+                          );
+                        });
+                  },
+                )),
+          );
+        });
   }
 }
-
 
 class ContentItem {
   final String name;
