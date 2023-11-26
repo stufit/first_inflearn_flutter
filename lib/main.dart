@@ -5,31 +5,41 @@ void main() {
   runApp(const MyApp());
 }
 
+// 데이터를 가지고 있는 것을 클래스로 만들어야 됨.
+class DataModel extends ChangeNotifier {
+  int _data = 0;
+
+  int get data => _data;
+
+  void increment() {
+    _data++;
+    // 값이 바뀐것을 알려줘야 한다.
+    notifyListeners();
+  }
+}
+
 class MyApp extends StatelessWidget {
   const MyApp({super.key});
 
   @override
   Widget build(BuildContext context) {
-    return MaterialApp(
-      home: Scaffold(
-        appBar: AppBar(
-          title: Text('프로바이더 테스트'),
-        ),
-        body: Column(
+    return ChangeNotifierProvider(
+      create: (context) => DataModel(),
+      child: MaterialApp(
+        home: Scaffold(
+          appBar: AppBar(
+            title: Text('프로바이더 테스트'),
+          ),
+          body: Column(
+          mainAxisAlignment: MainAxisAlignment.center,
           children: [
-            SizedBox(
-              height: 10,
-            ),
-            Provider<int>.value(
-              value: 5,
-              child: MyWidget1(),
-            ),
-            SizedBox(height: 10,),
+            MyWidget1(),
             MyWidget2(),
+            MyWidget3(),
           ],
         ),
       ),
-    );
+    ),);
   }
 }
 
@@ -38,26 +48,30 @@ class MyWidget1 extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    final data = Provider.of<int>(context);
-    print('마이위잿');
-
-    return Column(
-      children: [
-        Text('나의 위잿은 : $data'),
-        MyWidget3(),
-      ],
+    final dataModel = Provider.of<DataModel>(context);
+    print('모델1, $dataModel');
+    return Center(
+      child: Column(
+        children: [
+          Text('위잿1 : ${dataModel.data}'),
+          ElevatedButton(onPressed: (){
+            dataModel.increment();
+          }, child: Text('위잿1번 테스트'))
+        ],
+      ),
     );
   }
 }
+
 
 class MyWidget2 extends StatelessWidget {
   const MyWidget2({super.key});
 
   @override
   Widget build(BuildContext context) {
-    print('나의 위잿2');
+    print('마이위잿2');
     return Center(
-      child: Text('나의 위잿2'),
+      child: Text('위잿2'),
     );
   }
 }
@@ -68,9 +82,21 @@ class MyWidget3 extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    final data = Provider.of<int>(context);
+    final dataModel = Provider.of<DataModel>(context);
+    print('모델3, $dataModel');
     return Center(
-      child: Text('나의 위잿3 입니다. $data'),
+      child: Column(
+        children: [
+          Text('위잿3 : ${dataModel.data}'),
+          ElevatedButton(onPressed: (){
+            dataModel.increment();
+          }, child: Text('위잿3번 테스트'))
+        ],
+      ),
     );
   }
 }
+
+
+
+
