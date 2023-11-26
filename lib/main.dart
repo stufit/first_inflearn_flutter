@@ -1,8 +1,8 @@
 import 'package:flutter/material.dart';
-import 'new_page2.dart';
+import 'package:provider/provider.dart';
 
 void main() {
-  runApp(MyApp());
+  runApp(const MyApp());
 }
 
 class MyApp extends StatelessWidget {
@@ -11,35 +11,66 @@ class MyApp extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return MaterialApp(
-      home: MyHomePage(),
-      // routes: {
-      //   '/newPage': (context) => NewPage(),
-      // },
+      home: Scaffold(
+        appBar: AppBar(
+          title: Text('프로바이더 테스트'),
+        ),
+        body: Column(
+          children: [
+            SizedBox(
+              height: 10,
+            ),
+            Provider<int>.value(
+              value: 5,
+              child: MyWidget1(),
+            ),
+            SizedBox(height: 10,),
+            MyWidget2(),
+          ],
+        ),
+      ),
     );
   }
 }
 
-class MyHomePage extends StatelessWidget {
-  const MyHomePage({super.key});
+class MyWidget1 extends StatelessWidget {
+  const MyWidget1({super.key});
 
   @override
   Widget build(BuildContext context) {
-    return Scaffold(
-      appBar: AppBar(
-        title: Text("홈페이지"),
-      ),
-      body: Center(
-        child: ElevatedButton(
-          child: Text('새로운 페이지로 이동'),
-          onPressed: () {
-            // Navigator.pushNamed(context, '/newPage',arguments: "홈페이지에 온걸 진심으로 환영합니다.");
-            Navigator.push(
-                context,
-                MaterialPageRoute(
-                    builder: (context) => NewPage(message: "와우")));
-          },
-        ),
-      ),
+    final data = Provider.of<int>(context);
+    print('마이위잿');
+
+    return Column(
+      children: [
+        Text('나의 위잿은 : $data'),
+        MyWidget3(),
+      ],
+    );
+  }
+}
+
+class MyWidget2 extends StatelessWidget {
+  const MyWidget2({super.key});
+
+  @override
+  Widget build(BuildContext context) {
+    print('나의 위잿2');
+    return Center(
+      child: Text('나의 위잿2'),
+    );
+  }
+}
+
+
+class MyWidget3 extends StatelessWidget {
+  const MyWidget3({super.key});
+
+  @override
+  Widget build(BuildContext context) {
+    final data = Provider.of<int>(context);
+    return Center(
+      child: Text('나의 위잿3 입니다. $data'),
     );
   }
 }
